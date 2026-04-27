@@ -1,0 +1,85 @@
+---
+title: "CIS 351 Final Project"
+author: "Carter Altman"
+format:
+    html:
+        embed-resources: true
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(tinytable)
+```
+
+# Import Data
+
+```{r}
+water_quality <- read_csv("/Users/carteraltman/Library/CloudStorage/OneDrive-FlaglerCollege/CIS 351 Data Analytics/Final/data_9.csv")
+
+water_quality
+```
+
+# Data Cleaning and Preprocessing
+
+```{r}
+water_quality <- water_quality |>
+  clean_names()
+
+water_quality
+```
+
+```{r}
+water_quality <- water_quality |>
+  mutate(
+    turbidity_category = case_when(
+      turbidity_ntu < 5  ~ "Low",
+      turbidity_ntu <= 50 ~ "Moderate",
+      turbidity_ntu > 50 ~ "High"
+    )
+  )
+
+water_quality
+```
+
+```{r}
+summary(water_quality)
+```
+
+# Descriptive Statistics
+
+## Numerical Variables
+
+```{r}
+water_quality_statistics <- water_quality |>
+  summarize(
+    mean_turbidity = mean(turbidity_ntu, na.rm = TRUE),
+    median_turbidity = median(turbidity_ntu, na.rm = TRUE),
+    sd_turbidity = sd(turbidity_ntu, na.rm = TRUE),
+    mean_fecal = mean(fecal_coliform_cfu, na.rm = TRUE),
+    median_fecal = median(fecal_coliform_cfu, na.rm = TRUE),
+    sd_fecal = sd(fecal_coliform_cfu, na.rm = TRUE),
+    mean_chlorophyll = mean(chlorophyll_nu_l, na.rm = TRUE),
+    median_chlorophyll = median(chlorophyll_nu_l, na.rm = TRUE),
+    sd_chlorophyll = sd(chlorophyll_nu_l, na.rm = TRUE),
+    mean_oil = mean(refined_oil_rfu, na.rm = TRUE),
+    median_oil = median(refined_oil_rfu, na.rm = TRUE),
+    sd_oil = sd(refined_oil_rfu, na.rm = TRUE),
+    mean_temp = mean(temp_c, na.rm = TRUE),
+    median_temp = median(temp_c, na.rm = TRUE),
+    sd_temp = sd(temp_c, na.rm = TRUE),
+    n = n(),
+    .by = site
+  ) |>
+  tt(theme = "striped")
+
+water_quality_statistics
+```
+
+## Categorical Variables
+
+```{r}
+table(water_quality$site)
+table(water_quality$turbidity_category)
+```
+
