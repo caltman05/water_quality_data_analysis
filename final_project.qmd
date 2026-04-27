@@ -10,6 +10,7 @@ format:
 library(tidyverse)
 library(janitor)
 library(tinytable)
+library(ggpubr)
 ```
 
 # Import Data
@@ -25,6 +26,13 @@ water_quality
 ```{r}
 water_quality <- water_quality |>
   clean_names()
+
+water_quality
+```
+
+```{r}
+water_quality <- water_quality |>
+  filter(turbidity_ntu <= 50)
 
 water_quality
 ```
@@ -81,5 +89,79 @@ water_quality_statistics
 ```{r}
 table(water_quality$site)
 table(water_quality$turbidity_category)
+```
+
+# Data Visualization
+
+```{r}
+plot_turbidity_hist <- water_quality |>
+  ggplot(aes(x = turbidity_ntu)) +
+  geom_histogram(
+    binwidth = 2,
+    color = "blue",
+    fill = "skyblue"
+  ) +
+  labs(
+    title = "Distribution of Turbidity",
+    x = "Turbidity (NTU)",
+    y = "Count"
+  )
+
+plot_turbidity_hist
+```
+
+```{r}
+plot_turbidity_site <- water_quality |>
+  ggplot(aes(x = site, y = turbidity_ntu, fill = site)) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(
+    title = "Turbidity by Site",
+    x = "Site",
+    y = "Turbidity (NTU)"
+  )
+
+plot_turbidity_site
+```
+
+```{r}
+plot_turbidity_oil <- water_quality |>
+  ggplot(aes(x = turbidity_ntu, y = refined_oil_rfu)) +
+  geom_point() +
+  geom_smooth(
+    method = "lm",
+    color = "blue",
+    se = FALSE
+  ) +
+  stat_regline_equation(
+    label.x = 2,
+    label.y = 58
+  ) +
+  stat_cor(
+    label.x = 2,
+    label.y = 55
+  ) +
+  labs(
+    title = "Turbidity vs Refined Oil",
+    x = "Turbidity (NTU)",
+    y = "Refined Oil (RFU)"
+  )
+
+plot_turbidity_oil
+```
+
+```{r}
+plot_turbidity_category_site <- water_quality |>
+  filter(!is.na(turbidity_category), !is.na(site)) |>
+  ggplot(aes(x = site, fill = turbidity_category)) +
+  geom_bar() +
+  labs(
+    title = "Turbidity Category by Site",
+    x = "Site",
+    y = "Count",
+    fill = "Turbidity Category"
+  )
+
+plot_turbidity_category_site
 ```
 
