@@ -15,7 +15,7 @@ library(tinytable)
 # Import Data
 
 ```{r}
-water_quality <- read_csv("/Users/carteraltman/Library/CloudStorage/OneDrive-FlaglerCollege/CIS 351 Data Analytics/Final/data_9.csv")
+water_quality <- read_csv("https://raw.githubusercontent.com/caltman05/water_quality_data_analysis/refs/heads/main/data_9.csv")
 
 water_quality
 ```
