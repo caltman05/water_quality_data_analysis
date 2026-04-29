@@ -7,13 +7,24 @@ format:
 ---
 
 ```{r}
+#| messsage: false
+
 library(tidyverse)
 library(janitor)
 library(tinytable)
 library(ggpubr)
 ```
 
-# Import Data
+# 1. Introduction
+
+We use water quality data collected from five sites in the St. Augustine, Florida area: Camachee, Conch, Shipyard, Oasis, and City. The dataset contains measurements of several environmental variables including Turbidity (NTU), Fecal Coliform (CFU), Chlorophyll (nu/l), Refined Oil (RFU), Temperature (C), Dissolved Oxygen (mg/l), and pH. The motivation for this analysis is to assess and compare water quality conditions across the five sampling sites.
+
+For this project, we focus on the following variables:
+
+- **Numerical:** Turbidity (NTU) and Refined Oil (RFU)
+- **Categorical:** Site and Turbidity Category (Low, Moderate, High)
+
+# 2. Import Data
 
 ```{r}
 water_quality <- read_csv("https://raw.githubusercontent.com/caltman05/water_quality_data_analysis/refs/heads/main/data_9.csv")
@@ -21,7 +32,7 @@ water_quality <- read_csv("https://raw.githubusercontent.com/caltman05/water_qua
 water_quality
 ```
 
-# Data Cleaning and Preprocessing
+# 3. Data Cleaning and Preprocessing
 
 ```{r}
 water_quality <- water_quality |>
@@ -54,7 +65,7 @@ water_quality
 summary(water_quality)
 ```
 
-# Descriptive Statistics
+# 4. Descriptive Statistics
 
 ## Numerical Variables
 
@@ -91,7 +102,7 @@ table(water_quality$site)
 table(water_quality$turbidity_category)
 ```
 
-# Data Visualization
+# 5. Data Visualization
 
 ```{r}
 plot_turbidity_hist <- water_quality |>
@@ -165,7 +176,16 @@ plot_turbidity_category_site <- water_quality |>
 plot_turbidity_category_site
 ```
 
-# Statistical Tests
+# 6. Statistical Tests
+
+## ANOVA on `turbidity_ntu` by `site`
+
+From the boxplot in Section 5, we observe that the dataset includes more than two sites. Therefore, we proceed with an ANOVA to determine whether there are significant differences in mean turbidity across sites.
+
+Let $\mu_1, \mu_2, \mu_3, \mu_4, \mu_5$ denote the mean turbidity of Camachee, City, Conch, Oasis, and Shipyard, respectively. The hypotheses are:
+
+- $H_0$: $\mu_1 = \mu_2 = \mu_3 = \mu_4 = \mu_5$
+- $H_A$: At least one site has a mean turbidity that differs from the others
 
 ```{r}
 test_anova <- aov(
@@ -176,6 +196,12 @@ test_anova <- aov(
 summary(test_anova)
 ```
 
+## Kruskal-Wallis Test on `refined_oil_rfu` by `site`
+
+We use the Kruskal-Wallis test as a non-parametric alternative to compare the distribution of refined oil readings across the five sites.
+
+- $H_0$: The distribution of refined oil is the same across all sites
+- $H_A$: At least one site has a refined oil distribution that differs from the others
 
 ```{r}
 test_kruskal <- kruskal.test(
@@ -186,10 +212,15 @@ test_kruskal <- kruskal.test(
 test_kruskal
 ```
 
+## $\chi^2$-Test of Independence on `turbidity_category` and `site`
+
+- $H_0$: `turbidity_category` and `site` are independent
+- $H_A$: `turbidity_category` and `site` are dependent
+
 ```{r}
 test_chisq <- chisq.test(
   table(
-    water_quality$turbidity_category, 
+    water_quality$turbidity_category,
     water_quality$site
     )
 )
@@ -197,3 +228,6 @@ test_chisq <- chisq.test(
 test_chisq
 ```
 
+# 7. Conclusion
+
+Conclusion
