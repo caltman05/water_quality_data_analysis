@@ -204,6 +204,8 @@ test_anova <- aov(
 summary(test_anova)
 ```
 
+Since the $p$-value is $p = 6.84 \times 10^{-9} < 0.05$, we reject $H_0$ and conclude that at least one site has a mean turbidity that differs from the others.
+
 ## Kruskal-Wallis Test on `refined_oil_rfu` by `site`
 
 We use the Kruskal-Wallis test as a non-parametric alternative to compare the distribution of refined oil readings across the five sites.
@@ -220,6 +222,8 @@ test_kruskal <- kruskal.test(
 test_kruskal
 ```
 
+Since the $p$-value is $p = 0.292 > 0.05$, we fail to reject $H_0$ and conclude that there is no significant evidence that the distribution of refined oil differs across sites.
+
 ## $\chi^2$-Test of Independence on `turbidity_category` and `site`
 
 - $H_0$: `turbidity_category` and `site` are independent
@@ -235,6 +239,8 @@ test_chisq <- chisq.test(
 
 test_chisq
 ```
+
+Since the $p$-value is $p = 1.366 \times 10^{-5} < 0.05$, we reject $H_0$ and conclude that `turbidity_category` and `site` are dependent.
 
 # 7. Conclusion
 
