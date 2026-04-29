@@ -244,4 +244,4 @@ Since the $p$-value is $p = 1.366 \times 10^{-5} < 0.05$, we reject $H_0$ and co
 
 # 7. Conclusion
 
-Conclusion
+Based on traffic and visibility at each marina, our data finidngs are consistent with our hypothesis that high boat traffic within the marina affects overall water quality, specificially turbidity.
