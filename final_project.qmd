@@ -42,8 +42,8 @@ water_quality <- water_quality |>
   mutate(
     turbidity_category = case_when(
       turbidity_ntu < 5  ~ "Low",
-      turbidity_ntu <= 25 ~ "Moderate",
-      turbidity_ntu > 25 ~ "High"
+      turbidity_ntu <= 20 ~ "Moderate",
+      turbidity_ntu > 20 ~ "High"
     )
   )
 
