@@ -104,6 +104,8 @@ table(water_quality$turbidity_category)
 
 # 5. Data Visualization
 
+## Histogram of Turbidity
+
 ```{r}
 plot_turbidity_hist <- water_quality |>
   ggplot(aes(x = turbidity_ntu)) +
@@ -121,6 +123,8 @@ plot_turbidity_hist <- water_quality |>
 plot_turbidity_hist
 ```
 
+## Boxplot of Turbidity by Site
+
 ```{r}
 plot_turbidity_site <- water_quality |>
   ggplot(aes(x = site, y = turbidity_ntu, fill = site)) +
@@ -134,6 +138,8 @@ plot_turbidity_site <- water_quality |>
 
 plot_turbidity_site
 ```
+
+## Scatter Plot of Turbidity vs Refined Oil
 
 ```{r}
 plot_turbidity_oil <- water_quality |>
@@ -160,6 +166,8 @@ plot_turbidity_oil <- water_quality |>
 
 plot_turbidity_oil
 ```
+
+## Stacked Bar Chart of Turbidity Category by Site
 
 ```{r}
 plot_turbidity_category_site <- water_quality |>
