@@ -165,3 +165,35 @@ plot_turbidity_category_site <- water_quality |>
 plot_turbidity_category_site
 ```
 
+# Statistical Tests
+
+```{r}
+test_anova <- aov(
+  turbidity_ntu ~ site,
+  data = water_quality
+)
+
+summary(test_anova)
+```
+
+
+```{r}
+test_kruskal <- kruskal.test(
+  refined_oil_rfu ~ site,
+  data = water_quality
+)
+
+test_kruskal
+```
+
+```{r}
+test_chisq <- chisq.test(
+  table(
+    water_quality$turbidity_category, 
+    water_quality$site
+    )
+)
+
+test_chisq
+```
+
