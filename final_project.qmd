@@ -1,6 +1,6 @@
 ---
 title: "CIS 351 Final Project"
-author: "Carter Altman"
+author: "Carter Altman, Samantha Guynn, Shane Hall"
 format:
     html:
         embed-resources: true
@@ -42,8 +42,8 @@ water_quality <- water_quality |>
   mutate(
     turbidity_category = case_when(
       turbidity_ntu < 5  ~ "Low",
-      turbidity_ntu <= 50 ~ "Moderate",
-      turbidity_ntu > 50 ~ "High"
+      turbidity_ntu <= 25 ~ "Moderate",
+      turbidity_ntu > 30 ~ "High"
     )
   )
 
@@ -135,11 +135,11 @@ plot_turbidity_oil <- water_quality |>
   ) +
   stat_regline_equation(
     label.x = 2,
-    label.y = 58
+    label.y = 20
   ) +
   stat_cor(
     label.x = 2,
-    label.y = 55
+    label.y = 23
   ) +
   labs(
     title = "Turbidity vs Refined Oil",
